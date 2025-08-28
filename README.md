@@ -5,23 +5,14 @@
 # Table of Contents
 
 - [Introduction](#introduction)
-
 - [Features](#features)
-
 - [Project Structure](#project-structure)
-
 - [Installation](#installation)
-
 - [Usage](#usage)
-
 - [Available Scripts](#available-scripts)
-
 - [Dependencies](#Dependencies)
-
 - [Configuration](#configuration)
-
 - [Pages & Modals](#pages--modals)
-
 - [Live Demo](#live-demo)
 
 
@@ -49,11 +40,11 @@ It allows users to:
 
 - **Routing:** Organized pages for Books and Borrow workflows via react-router
 
-- **State Management:** Centralized with Redux Toolkit + API abstraction layer
+- **State Management:** Centralized with Redux Toolkit + API & central modal state appSlice
 
-- **Modern UI:** Built with TailwindCSS 4, Flowbite, and Radix UI components
+- **Modern UI:** Built with TailwindCSS 4 and ShadCn UI components
 
-- **Form Handling & Validation:** react-hook-form with zod validation
+- **Form Handling & Validation:** react-hook-form
 
 - **Type Safety:** Strongly typed with TypeScript
 
@@ -94,8 +85,8 @@ Ensure you have Node.js (>=18) and npm (>=9).
 
 **Clone the repo**
 ```
-git clone https://github.com/your-username/bookgrid.git
-cd bookgrid
+git clone https://github.com/rakib-gazi/L2-PH-Assingment-04.git
+cd L2-PH-Assingment-04
 ```
 **Install dependencies**
 ```
@@ -141,9 +132,9 @@ npm run lint
 
 - **Core:** React 19, React DOM, Redux Toolkit, React Redux, React Router v7
 
-- **UI/Styling:** TailwindCSS 4, Flowbite, Radix UI, DaisyUI
+- **UI/Styling:** TailwindCSS 4, Flowbite, Radix UI, ShadCn UI
 
-- **Forms & Validation:** React Hook Form, Zod, @hookform/resolvers
+- **Forms & Validation:** React Hook Form
 
 - **Animations & UX:** Lottie React, Lottie Web, SweetAlert2, React Spinners
 
@@ -159,7 +150,7 @@ npm run lint
 
 - **Redux API** → redux/api/Api.ts
 
-- **TailwindCSS** → via Flowbite + DaisyUI plugins
+- **TailwindCSS** → via ShadCn Ul , Flowbite + DaisyUI plugins
 
 
 ## Pages & Modals
