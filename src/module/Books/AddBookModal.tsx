@@ -11,6 +11,7 @@ import type { BackendValidationError, ICreateBook } from '@/types/types';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { BeatLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 
 const AddBookModal = () => {
@@ -18,7 +19,7 @@ const AddBookModal = () => {
     const open = useSelector((state: RootState) => state.modal.addBook);
     const form = useForm<ICreateBook>();
     const genreData = ["FICTION", "NON_FICTION", "SCIENCE", "HISTORY", "BIOGRAPHY", "FANTASY"];
-    const [createBook] = useCreateBookMutation();
+    const [createBook,{isLoading}] = useCreateBookMutation();
     const onSubmit: SubmitHandler<ICreateBook> = async (data) => {
         try {
             const convertedData = {
@@ -70,7 +71,7 @@ const AddBookModal = () => {
             <DialogTrigger asChild>
                 <Button className=''>Add Book</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
                 <DialogDescription className="sr-only">Fill up this form</DialogDescription>
                 <DialogHeader>
                     <DialogTitle className='text-center font-bold text-blue-700 text-2xl'>Add Book</DialogTitle>
@@ -192,7 +193,7 @@ const AddBookModal = () => {
                             <DialogClose asChild>
                                 <Button variant="destructive" className='cursor-pointer '>Cancel</Button>
                             </DialogClose>
-                            <Button variant="default" type="submit" className='cursor-pointer'>Submit</Button>
+                            <Button variant="default" type="submit" className=" flex items-center justify-center cursor-pointer">{isLoading ? <BeatLoader  className="py-3" color="#ffffff"  size={8}/> : "Submit"}</Button>
                         </DialogFooter>
                     </form>
                 </Form>

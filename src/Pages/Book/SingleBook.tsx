@@ -1,10 +1,19 @@
 import { useGetSingleBookQuery } from "@/redux/api/Api";
 import { Link, useParams } from "react-router";
+import { SyncLoader } from "react-spinners";
 
 
 const SingleBook = () => {
-    const {id} = useParams<{ id: string }>();
-    const { data } = useGetSingleBookQuery(id);
+    const { id } = useParams<{ id: string }>();
+    const { data,isLoading,isFetching } = useGetSingleBookQuery(id);
+
+    if (isLoading || isFetching) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <SyncLoader color="#2032da" size={20} />
+            </div>
+        );
+    }
     const book = data?.data;
     return (
         <div className="mx-auto bg-white rounded-3xl shadow-md my-8 p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -31,7 +40,7 @@ const SingleBook = () => {
                 </div>
             </div>
             <div className="flex flex-col justify-center relative">
-                <div className="absolute top-0 right-0 hidden lg:block">
+                <div className="absolute top-0 right-0 hidden md:block">
                     <Link className="bg-blue-700 text-primary-foreground shadow-xs hover:bg-green-950 px-3 py-1.5 font-bold rounded-md" to="/books">Go Back</Link>
                 </div>
                 <h2 className="text-2xl md:text-4xl capitalize font-bold mb-6">{book?.title}</h2>

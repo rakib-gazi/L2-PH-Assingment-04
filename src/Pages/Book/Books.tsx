@@ -9,14 +9,14 @@ import Swal from "sweetalert2";
 import { IoTrashBin } from "react-icons/io5";
 import { Link } from "react-router";
 import { FaEye } from "react-icons/fa";
+import { SyncLoader } from "react-spinners";
 const Books = () => {
-    const { data } = useGetBooksQuery(undefined, {
-        pollingInterval: 6000,
+    const { data, isLoading, isFetching } = useGetBooksQuery(undefined, {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true,
         refetchOnReconnect: true
     });
-    
+
     const [deleteBook] = useDeleteBookMutation();
     const handleDelete = async (id: string) => {
         Swal.fire({
@@ -60,31 +60,47 @@ const Books = () => {
                 </TableHeader>
                 <TableBody>
                     {
+                        isLoading || isFetching ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className=" text-center py-8">
+                                    <div className="flex justify-center items-center ">
+                                        <SyncLoader color="#2032da" size={20} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : data?.data?.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="text-center py-8 text-xl font-semibold">
+                                    No data available
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            data?.data.map((book: IBook) => {
+                                return (
+                                    <TableRow key={book._id}>
+                                        <TableCell className="font-medium">{book.title}</TableCell>
+                                        <TableCell className="font-medium">{book.author}</TableCell>
+                                        <TableCell className="font-medium">{book.genre}</TableCell>
+                                        <TableCell className="font-medium">{book.isbn}</TableCell>
+                                        <TableCell className="font-medium">{book.copies}</TableCell>
+                                        <TableCell className="font-medium">{book.available ? "Available" : "Unavailable"}</TableCell>
+                                        <TableCell className="font-medium flex justify-center items-center">
+                                            <Button variant="eyeButton">
+                                                <Link to={`/books/${book._id}`}>
+                                                    <FaEye className="size-5" />
+                                                </Link>
+                                            </Button>
+                                            <UpdateBookModal book={book} />
+                                            <BorrowBookModal book={book} />
+                                            <Button className="flex justify-center items-center" variant="iconButton" onClick={() => handleDelete(book._id)}>
+                                                <IoTrashBin className="size-5 " />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })
+                        )
 
-                        data?.data.map((book: IBook) => {
-                            return (
-                                <TableRow key={book._id}>
-                                    <TableCell className="font-medium">{book.title}</TableCell>
-                                    <TableCell className="font-medium">{book.author}</TableCell>
-                                    <TableCell className="font-medium">{book.genre}</TableCell>
-                                    <TableCell className="font-medium">{book.isbn}</TableCell>
-                                    <TableCell className="font-medium">{book.copies}</TableCell>
-                                    <TableCell className="font-medium">{book.available ? "Available" : "Unavailable"}</TableCell>
-                                    <TableCell className="font-medium flex justify-center items-center">
-                                        <Button variant="eyeButton">
-                                            <Link to={`/books/${book._id}`}>
-                                                <FaEye className="size-5" />
-                                            </Link>
-                                        </Button>
-                                        <UpdateBookModal book={book} />
-                                        <BorrowBookModal book={book} />
-                                        <Button className="flex justify-center items-center" variant="iconButton" onClick={() => handleDelete(book._id)}>
-                                            <IoTrashBin className="size-5 " />
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })
                     }
                 </TableBody>
             </Table>

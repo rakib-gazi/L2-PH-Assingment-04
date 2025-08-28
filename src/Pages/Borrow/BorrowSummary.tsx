@@ -4,10 +4,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useGetBorrowBookSummaryQuery } from "@/redux/api/Api";
 import type { IBorrow } from "@/types/types";   
 import { Link } from "react-router";
+import { SyncLoader } from "react-spinners";
 
 
 const BorrowSummary = () => {
-    const { data } = useGetBorrowBookSummaryQuery(undefined, {
+    const { data,isLoading,isFetching } = useGetBorrowBookSummaryQuery(undefined, {
         // pollingInterval: 6000,
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true,
@@ -29,7 +30,22 @@ const BorrowSummary = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        data?.data.map((book: IBorrow, index:number) => {
+                        isLoading || isFetching ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className=" text-center py-8">
+                                    <div className="flex justify-center items-center ">
+                                        <SyncLoader color="#2032da" size={20} />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : data?.data?.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={7} className="text-center py-8 text-xl font-semibold">
+                                    No data available
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            data?.data.map((book: IBorrow, index:number) => {
                             return (
                                 <TableRow key={index+1}>
                                     <TableCell className="font-medium">{book.book.title}</TableCell>
@@ -38,6 +54,8 @@ const BorrowSummary = () => {
                                 </TableRow>
                             )
                         })
+                        )
+                        
                     }
                 </TableBody>
             </Table>

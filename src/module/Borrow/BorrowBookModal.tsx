@@ -15,11 +15,12 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import { FaBookOpenReader } from "react-icons/fa6";
+import { BeatLoader } from 'react-spinners';
 const BorrowBookModal = ({ book }: UpdateBookModalProps) => {
     const [open, setOpen] = useState(false);
     const [popoverOpen, setPopoverOpen] = useState(false);
     const form = useForm<ICreateBorrow>();
-    const [createBorrow] = useCreateBorrowMutation();
+    const [createBorrow, {isLoading}] = useCreateBorrowMutation();
     const navigate = useNavigate();
     const onSubmit: SubmitHandler<ICreateBorrow> = async (data) => {
         try {
@@ -146,7 +147,7 @@ const BorrowBookModal = ({ book }: UpdateBookModalProps) => {
                             <DialogClose asChild>
                                 <Button variant="destructive" className='cursor-pointer '>Cancel</Button>
                             </DialogClose>
-                            <Button variant="default" type="submit" className='cursor-pointer'>Submit</Button>
+                            <Button variant="default" type="submit" className=" flex items-center justify-center cursor-pointer">{isLoading ? <BeatLoader  className="py-3" color="#ffffff"  size={8}/> : "Submit"}</Button>
                         </DialogFooter>
                     </form>
                 </Form>
